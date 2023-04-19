@@ -245,10 +245,10 @@ public static void reiniciarMatrix(int[][] matrix) {
     }
 }
 
-public static void pruebaSeries(int[] recurrencias) {
+public static void pruebaSeries(int[] arrayList) {
     double Xcritico = 16.92;
     double Xcalc = 0;
-    double[][] pares = mapearPares(recurrencias);
+    double[][] pares = mapearPares(arrayList);
     ubicarPares(pares, TablaSeries);
     calcularChi(TablaSeries, 88);
     for (int i = 0; i < TablaSeriesCalc.length; i++) {
@@ -303,8 +303,8 @@ public static int[] calcularPoker(int[] recurrencias) {
     return casos;
 }
 
-public static void pruebaPoker(int[] recurrencias) {
-    int[] FO = calcularPoker(recurrencias);
+public static void pruebaPoker(int[] arrayList) {
+    int[] FO = calcularPoker(arrayList);
     double[] FE = {720, 270, 10};
     double Xcalc = 0;
     double Xcritico = 5.99;

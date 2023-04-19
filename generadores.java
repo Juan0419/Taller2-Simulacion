@@ -32,6 +32,7 @@ public class generadores {
     }
 
     public static void generadorLinCong(int DatRequer){
+       
         Scanner input = new Scanner(System.in);
     
         System.out.print("a es: ");
@@ -54,20 +55,19 @@ public class generadores {
         int res = (a * Xo + c) % m;
         evaluarRecurrencia(res, m);
     
-        for (int i = 0; i < n - 1; i++) {
-            res = (a * res + c) % m;
+        for (int i = 0; i < n; i++) {
             datosGenerados.add((double) res);
             recurrencias.add((double) (Math.round(res / (double) m * 1000) / 1000));
             evaluarRecurrencia(res, m);
+            res = (a * res + c) % m;
         }
     
         hallarPeriodo();
-        input.close();
+        
     }
 
-
     public static void generadorEstMin(int DatRequer){
-    Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int a, m, Xo;
         System.out.print("a es: ");
         a = sc.nextInt();
@@ -95,48 +95,48 @@ public class generadores {
         hallarPeriodo();
     }
 
-    // Ayudenme en esa que esta con el genrador anterior pero no implementado con estandar minimo factorizable
-    /*
-        double q = Math.floor(m / a);
-        long qlong = (long)q;
-        long r = m % a;
-
-        xn = (a * xn) % m;
-        if(xn >= 0){
-            return (long) (a * (xn % qlong)-r * Math.floor(xn/qlong));
-            
-        }else {
-            return (long)(a * (xn % q)-r * Math.floor(xn/q)+m);
-        }
-    */
-    public static void generadorEstMinFact(int DatRequer){
+    public static void generatorStanMinFact(int DatRequer){
         Scanner sc = new Scanner(System.in);
-            int a, m, Xo;
-            System.out.print("a es: ");
-            a = sc.nextInt();
-            System.out.print("m es: ");
-            m = sc.nextInt();
-            System.out.print("Xo es: ");
-            Xo = sc.nextInt();
-            sc.close();
+        int a, m, Xo;
+        System.out.print("a es: ");
+        a = sc.nextInt();
+        System.out.print("m es: ");
+        m = sc.nextInt();
+        System.out.print("Xo es: ");
+        Xo = sc.nextInt();
+        sc.close();
+
+        n = DatRequer;
+        System.out.println();
     
-            n = DatRequer;
-            System.out.println();
-    
-            int res = (a * Xo) % m;
-            datosGenerados.add((double) Xo);
-            recurrencias.add((double) Math.round((Xo / (double) m) * 1000) / 1000);
-            evaluarRecurrencia(res, m);
-    
-            for (int i = 0; i < n - 1; i++) {
-                res = (a * res) % m;
-                datosGenerados.add((double) res);
-                recurrencias.add((double) Math.round((res / (double) m) * 1000) / 1000);
-                evaluarRecurrencia(res, m);
+        int res = (a * Xo) % m;
+        datosGenerados.add((double) Xo);
+        recurrencias.add((double) Math.round((Xo / (double) m) * 1000) / 1000);
+        evaluarRecurrencia(res, m);
+
+        ArrayList<Long> listaLong = new ArrayList<>();
+
+        for (int i = 0; i < n - 1; i++) {
+            res = (a * res) % m;
+            double xn = 0;
+            double q = Math.floor(m / a);
+            long qlong = (long)q;
+            long r = m % a;
+
+            xn = (a * xn) % m;
+            if(xn >= 0){
+                listaLong.add((long) (a * (xn % qlong)-r * Math.floor(xn/qlong)));
+            }else {
+                listaLong.add((long) (a * (xn % q)-r * Math.floor(xn/q)+m));
             }
-    
-            hallarPeriodo();
+
+            datosGenerados.add((double) res);
+            recurrencias.add((double) Math.round((res / (double) m) * 1000) / 1000);
+            evaluarRecurrencia(res, m);
         }
+
+        hallarPeriodo();
+    }
 
     public static void generadorJava(int DatRequer){
         n = DatRequer;
@@ -149,7 +149,6 @@ public class generadores {
         }
         hallarPeriodo();
     }
-
 
     public static void evaluarRecurrencia(double Xn, double m) {
         double Rn = Xn/m;
@@ -194,8 +193,8 @@ public class generadores {
         return new ArrayList<>(datosGenerados);
     }
     
-    public static void ReiniciarArreglos(double[] Arreglo) {
-        Arrays.fill(Arreglo, 0);
+    public static void ReiniciarArreglos(long[] arrayList) {
+        Arrays.fill(arrayList, 0);
     }
     
     public static void ReiniciarListas(ArrayList<Double> lista) {
@@ -205,9 +204,9 @@ public class generadores {
     private static void hallarPeriodo() {
         try {
             int periodo = datosGenerados.subList(1, datosGenerados.size()).indexOf(datosGenerados.get(0)) + 1;
-            System.out.println("El periodo para este generador es: " + periodo);
+           JOptionPane.showMessageDialog(null,"El periodo para este generador es: " + periodo);
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("No hay periodo disponible para la cantidad de datos que generó.");
+            JOptionPane.showMessageDialog(null,"No hay periodo disponible para la cantidad de datos que generó.");
         }
     }
 
@@ -216,18 +215,4 @@ public class generadores {
             System.out.println(datos.get(i));
         }
     }
-
-
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        int DatoRequer = input.nextInt();
-        int a = input.nextInt();
-        int c = input.nextInt();
-        int m = input.nextInt();
-        int xn = input.nextInt();
-        n = DatoRequer;
-        datosGenerados.add((double)xn);
-        recurrencias.add((double)Math.round(xn/m*1000)/1000);
-    }
-    
 }
